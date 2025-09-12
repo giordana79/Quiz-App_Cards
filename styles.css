@@ -4,7 +4,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 100vh; */
   min-height: 100vh; /* Aggiunto */
   margin: 0;
 }
@@ -27,13 +26,12 @@ h1 {
   color: #6b7280;
   text-align: center;
   font-size: 15px;
-  /* margin: 8px 0; */
 }
 
 #answers {
   list-style: none;
   padding: 0;
-  margin: 12px 0; /* Aggiunto */
+  margin: 12px 0;
 }
 
 #answers li {
@@ -41,7 +39,6 @@ h1 {
 }
 
 #answers button {
-  /*margin-top: 15px;*/
   padding: 10px 12px;
   width: 100%;
   border: 1px solid;
@@ -51,15 +48,15 @@ h1 {
   font-weight: bold;
   cursor: pointer;
   transition:
-    trasform 0.05 ease,
-    background 0.2s ease; /* Aggiunto */
+    transform 0.05s ease,
+    background 0.2s ease;
 }
 
-#answer button:hover {
-  background: #f9fafb;
+#answers button:hover {
+  background: #18497a;
 }
 
-#answer button:active {
+#answers button:active {
   transform: scale(0.99);
 }
 
@@ -106,7 +103,7 @@ button:hover {
 }
 
 /* Risultati finali */
-.results {
+.result {
   margin-top: 12px;
 }
 

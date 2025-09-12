@@ -64,10 +64,8 @@ let currentQuestion = 0;
 let score = 0;
 //Contatore risposte consecutive corrette per il bonus e azzerato se sbaglia
 let risp_cons = 0;
-
 //Riferimento al setInterval
 let timer;
-
 //Secondi per domanda
 let timeLeft = 10;
 
@@ -112,12 +110,11 @@ const cardsContainer = document.getElementById("history-cards");
 //Aggiorna la UI dell'avanzamento (domanda X/Y + barra grafica)
 function updateProgress() {
   const total = quizData.length;
-  // Se currentQuestion >= total significa che hai finito il quiz
+  // Se currentQuestion >= total significa che ha finito il quiz
   const humanIndex = Math.min(currentQuestion + 1, total);
-  progressText.textContent = `domanda ${humanIndex} / ${total}`;
+  progressText.textContent = `Domanda ${humanIndex} / ${total}`;
 
   //Calcolo percentuale
-  //const pct = (Math.min(currentQuestion, total) / total) * 100;
   const pct = (humanIndex / total) * 100;
   progressBar.style.width = `${pct}%`;
 }
@@ -135,7 +132,7 @@ function startTimer() {
   //Imposta il tempo iniziale per la domanda (10 secondi)
   timeLeft = 10;
 
-  //Aggiorna  il DOM per mostrare all'utente il tempo rimanente
+  //Aggiorna il DOM per mostrare all'utente il tempo rimanente
   timerEl.textContent = `Tempo rimasto: ${timeLeft}s`;
 
   //Avvia il countdown: esegue la funzione ogni 1000[ms] (1[s])
@@ -151,8 +148,8 @@ function startTimer() {
       // Ferma il timer
       clearInterval(timer);
 
-      //Azzera la streak poichèl'utente non ha risposto in tempo
-      streak = 0;
+      //Azzera le risp_cons poichè l'utente non ha risposto in tempo
+      risp_cons = 0;
 
       //Mostra messaggio di risposta sbagliata nel DOM
       scoreEl.textContent = "Tempo scaduto! Non è più possibile rispondere";
@@ -171,14 +168,18 @@ function startTimer() {
 
 //Salva i risultati in localstorage
 function saveResultsToLocalStorage(finalScore) {
+  //Salva l'ultimo risultato con data
   const last = { score: finalScore, date: new Date().toLocaleString() }; //toISOString no vedi Note_Timer.md
   localStorage.setItem("quiz:lastScore", JSON.stringify(last));
 
   //Gestione record
+  //Aggiorna l'high score se necessario
   const prevHigh = Number(localStorage.getItem("quiz:highScore") || 0);
   if (finalScore > prevHigh) {
     localStorage.setItem("quiz:highScore", String(finalScore));
   }
+  //Ritorna il valore aggiornato dell'high score
+  return Math.max(finalScore, prevHigh);
 }
 
 //Legge high score da local storage
@@ -187,7 +188,7 @@ function getHighScore() {
 }
 
 function saveQuizHistory(finalScore) {
-  // Crea un oggetto che rappresenta un singolo quiz completato
+  //Crea un oggetto che rappresenta un singolo quiz completato
   const entry = {
     score: finalScore, // punteggio ottenuto in questo quiz
     date: new Date().toLocaleString(), // data e ora locali in cui il quiz è stato completato
@@ -283,17 +284,13 @@ function loadQuestion() {
     // Testo del pulsante = testo della risposta
     btn.textContent = answer;
 
-    // Assegna una funzione al clic del pulsante btn
-    // Quando l'utente clicca su questa risposta,
-    // viene chiamata la funzione checkAnswer
-    // Passa come parametro index,
-    // cioè l'indice della risposta selezionata
+    // Assegna una funzione al clic del pulsante btn quando l'utente clicca
+    // su questa risposta,viene chiamata la funzione checkAnswer, passa
+    // come parametro index,cioè l'indice della risposta selezionata
     btn.onclick = () => checkAnswer(index);
 
-    // Aggiunge l'elemento <li> appena creato alla lista <ul>
-    // delle risposte (answersEl) nel DOM
-    // In questo modo il pulsante della risposta
-    // diventa visibile nella pagina
+    // Aggiunge l'elemento <li> appena creato alla lista <ul> delle risposte
+    // (answersEl) nel DOM, in questo modo il pulsante della risposta diventa visibile nella pag
     li.appendChild(btn);
     answersEl.appendChild(li);
   });
@@ -310,9 +307,9 @@ function checkAnswer(index) {
   //Recuperiamo la domanda corrente
   const q = quizData[currentQuestion];
 
-  // Se l'indice coincide con quello corretto allora incrementa il punteggio
+  //Se l'indice coincide con quello corretto allora incrementa il punteggio
   if (index === q.correct) {
-    // Incrementa il contatore delle risposte corrette consecutive
+    //Incrementa il contatore delle risposte corrette consecutive
     risp_cons++;
 
     //Bonus per risposte consecutive
@@ -330,7 +327,7 @@ function checkAnswer(index) {
     scoreEl.className = "correct";
   } else {
     risp_cons = 0; // reset risp_cons
-    // Se la risposta è sbagliata, azzera il contatore di risp_cons
+    //Se la risposta è sbagliata, azzera il contatore di risp_cons
 
     //Mostra un messaggio all'utente indicando che la risposta è sbagliata
     scoreEl.textContent = "Risposta sbagliata";
@@ -342,23 +339,23 @@ function checkAnswer(index) {
   //Disabilita i bottoni per evitare doppio click
   disableAnswerButtons();
 
-  // Rende visibile il pulsante "Prossima" per permettere all'utente di passare alla domanda successiva
+  //Rende visibile il pulsante "Prossima" per permettere all'utente di passare alla domanda successiva
   nextBtn.style.display = "block";
 }
 
-// Gestione del pulsante prossima
+//Gestione del pulsante prossima
 nextBtn.addEventListener("click", () => {
-  // Se ci sono ancora domande...
+  //Se ci sono ancora domande...
   if (currentQuestion < quizData.length - 1) {
     currentQuestion++;
     loadQuestion();
     updateProgress();
     nextBtn.style.display = "none";
   } else {
-    // Siamo al termine del quiz: assicurati che la barra arrivi a 100%
-    // indica stato "completato"
+    //Fine del quiz: verificare che la barra arrivi a 100%
+    //Indica stato "completato"
     currentQuestion = quizData.length;
-    // ora pct sarà 100
+    //Pct sarà 100
     updateProgress();
 
     //Se non ci sono più domande mostra la schermata finale
@@ -370,8 +367,6 @@ nextBtn.addEventListener("click", () => {
     nextBtn.style.display = "none";
 
     showResults();
-    //Salva nella cronologia degli ultimi 10 quiz
-    saveQuizHistory(score);
 
     //Aggiorna la barra di avanzamento finale
     progressBar.style.width = `100%`;
@@ -380,36 +375,26 @@ nextBtn.addEventListener("click", () => {
 
 //Mostra risultati finali
 function showResults() {
+  //Segna il quiz come completato
   currentQuestion = quizData.length;
   updateProgress();
 
+  //Pulizia UI
   questionEl.textContent = "Quiz completato!";
   answersEl.innerHTML = "";
   nextBtn.style.display = "none";
 
-  showHistory();
-
-  // Salvataggio punteggio
-
-  //Salva il punteggio in localStorage,
-  //la chiave è "lastQuizScore" e il valore è la variabile score
-  localStorage.setItem("lastQuizScore", score);
-
-  //Salva la data e l'ora in cui l'utente ha completato il quiz,
-  //la chiave è "lastQuizDate" e il valore è la data/ora corrente formattata come string
-  localStorage.setItem("lastQuizDate", new Date().toLocaleString());
-
-  //Gestione record
-  const prevHigh = Number(localStorage.getItem("quiz:highScore") || 0);
-  if (score > prevHigh) {
-    localStorage.setItem("quiz:highScore", score);
-  }
-  const high = Number(localStorage.getItem("quiz:highScore") || 0);
+  //Salva risultato + aggiorna high score in modo centralizzato
+  const high = saveResultsToLocalStorage(score);
 
   //Mostra la schermata finale
   resultsBox.style.display = "block";
   finalScoreEl.textContent = `Punteggio finale: ${score} / ${quizData.length}`;
   highScoreEl.textContent = `Record assoluto: ${high}`;
+
+  //Mostra cronologia
+  saveQuizHistory(score);
+  showHistory();
 }
 
 //Pulsanti extra
@@ -418,6 +403,8 @@ restartBtn.addEventListener("click", () => {
   risp_cons = 0;
   currentQuestion = 0;
   resultsBox.style.display = "none";
+  //Nasconde la cronologia nella pagina
+  document.getElementById("history").style.display = "none";
   loadQuestion();
   nextBtn.style.display = "none";
 });
@@ -426,11 +413,6 @@ clearStorageBtn.addEventListener("click", () => {
   localStorage.clear();
   alert("LocalStorage svuotato!");
 });
-
-//Legge high score da local storage
-function getHighScore() {
-  return Number(localStorage.getItem("quiz:highScore") || 0);
-}
 
 //Avvio dell'app: carica la prima domanda
 loadQuestion();
