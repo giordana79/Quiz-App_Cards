@@ -1,0 +1,202 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+  min-height: 100vh; /* Aggiunto */
+  margin: 0;
+}
+
+.quiz-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 350px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 95vw; /* Aggiunto */
+}
+
+h1 {
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.muted {
+  color: #6b7280;
+  text-align: center;
+  font-size: 15px;
+  /* margin: 8px 0; */
+}
+
+#answers {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0; /* Aggiunto */
+}
+
+#answers li {
+  margin: 8px 0;
+}
+
+#answers button {
+  /*margin-top: 15px;*/
+  padding: 10px 12px;
+  width: 100%;
+  border: 1px solid;
+  border-radius: 10px;
+  background: #3b82f6;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    trasform 0.05 ease,
+    background 0.2s ease; /* Aggiunto */
+}
+
+#answer button:hover {
+  background: #f9fafb;
+}
+
+#answer button:active {
+  transform: scale(0.99);
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+.correct {
+  color: green;
+  font-weight: 600;
+}
+.wrong {
+  color: red;
+  font-weight: 600;
+}
+
+/* Bottoni nav */
+#next-btn,
+#restart-btn,
+#clear-storage-btn {
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #3b82f6;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#restart-btn {
+  background: #10b981;
+}
+
+#clear-storage-btn {
+  background: #6b7280;
+}
+
+.ghost {
+  background: transparent;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+/* Risultati finali */
+.results {
+  margin-top: 12px;
+}
+
+/* Contenitore della barra di avanzamento */
+#progress-container {
+  background: #e0e0e0; /* Sfondo neutro chiaro per far risaltare la barra interna */
+  border-radius: 12px; /* Angoli arrotondati più marcati */
+  height: 25px; /* Altezza leggermente maggiore per migliore visibilità */
+  margin-bottom: 20px; /* Spazio sotto la barra */
+  overflow: hidden; /* Nasconde eventuali overflow */
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombra interna per effetto 3D */
+  position: relative; /* Necessario per posizionare il testo sopra */
+}
+
+/* Barra interna che cresce in base al progresso */
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    #3b82f6,
+    #06b6d4,
+    #0ea5e9
+  ); /* Gradient più vivace e contrastato */
+  transition:
+    width 0.5s ease-in-out,
+    box-shadow 0.3s;
+  border-radius: 12px; /* Arrotondamento coerente con il contenitore */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Ombra esterna per maggiore profondità */
+  position: relative;
+  /*  overflow: hidden; /* Aggiunto */
+  /*  margin: 6px 0 16px; /* Aggiunto */
+}
+
+/* Contenitore cronologia */
+#history {
+  margin-top: 30px; /* Spazio sopra il contenitore */
+  padding: 15px; /* Spazio interno tra bordo e contenuto */
+  border: 2px solid #2196f3; /* Bordo blu attorno alla sezione */
+  border-radius: 12px; /* Angoli arrotondati */
+  background-color: #f0f8ff; /* Sfondo azzurro chiaro */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra leggera per effetto “sollevato” */
+}
+
+#history h2 {
+  text-align: center; /* Testo centrato */
+  margin-bottom: 15px; /* Spazio sotto il titolo */
+  color: #2196f3; /* Colore del titolo blu */
+}
+
+/* Layout a griglia per le card */
+.history-cards {
+  display: grid; /* Dispone le card in griglia */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  /*  Le card occupano almeno 220px e si adattano alla larghezza disponibile */
+  gap: 15px; /* Spazio tra le card */
+}
+
+/* Singola card */
+.history-card {
+  background: white; /* Sfondo bianco per ogni card */
+  border: 1px solid #ddd; /* Bordo grigio chiaro */
+  border-radius: 10px; /* Angoli arrotondati */
+  padding: 15px; /* Spazio interno nella card */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08); /* Ombra leggera per effetto rilievo */
+  transition:
+    transform 0.2s,
+    /* Transizione per effetto hover (traslazione) */ box-shadow 0.2s; /* Transizione per effetto hover (ombra) */
+}
+
+.history-card:hover {
+  transform: translateY(
+    -3px
+  ); /* Solleva la card di 3px quando ci passi sopra */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Ombra più pronunciata al passaggio del mouse */
+}
+
+/* Testo nella card */
+.history-card p {
+  margin: 6px 0; /* Spazio sopra e sotto il paragrafo */
+  font-size: 0.95em; /* Dimensione leggermente più piccola del normale */
+  color: #333; /* Colore testo grigio scuro */
+}
+
+.history-card .score {
+  font-weight: bold; /* Testo in grassetto */
+  color: #4caf50; /* Colore verde per evidenziare il punteggio */
+}
+
+.history-card .total {
+  font-size: 0.85em; /* Testo leggermente più piccolo */
+  color: #555; /* Colore grigio medio per il totale domande */
+}

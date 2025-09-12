@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz JS</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div class="quiz-container">
+      <h1>Quiz di JavaScript</h1>
+
+      <!-- Barra di avanzamento -->
+      <div id="progress-container">
+        <div id="progress-bar" style="width: 0%"></div>
+      </div>
+
+      <!-- timer - conto alla rovescia -->
+      <p id="timer" class="muted">Tempo rimasto: 10s</p>
+
+      <!-- Testo di avanzamento: domanda 3/5-->
+      <p id="progress-text" class="muted">Domanda 1/1</p>
+
+      <div id="question-container"></div>
+      <ul id="answers"></ul>
+
+      <button id="next-btn" style="display: none">Prossima</button>
+      <p id="score"></p>
+
+      <!-- Risultati finali + record -->
+      <div id="result" class="result" style="display: none">
+        <p id="final-score"></p>
+        <p id="high-score"></p>
+        <button id="restart-btn">Ricomincia</button>
+        <button id="clear-storage-btn" class="ghost">Resetta record</button>
+      </div>
+
+ <!-- Cronologia degli ultimi 10 quiz -->
+<div id="history" style="display: none">
+  <h2>Cronologia ultimi quiz</h2>
+  <div id="history-cards" class="history-cards"></div>
+</div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
